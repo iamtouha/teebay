@@ -7,7 +7,12 @@
     "check-types": "tsc --noEmit",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsc-watch --onSuccess \"node dist/index.js\""
+    "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
+    "db:init": "docker run --name teebay-db -d -e POSTGRES_DB=teebaydb -e POSTGRES_PASSWORD=root -e POSTGRES_USER=teebay -p '5432:5432' postgres && sleep 2",
+    "db:remove": "docker stop postgres-db || true && docker rm postgres-db || true",
+    "db:generate": "npx prisma migrate dev",
+    "db:migrate": "npx prisma migrate deploy",
+    "db:reset": "npm run db:remove && npm run db:init && npm run db:migrate"
   },
   "keywords": [],
   "author": "",
@@ -15,11 +20,13 @@
   "description": "",
   "dependencies": {
     "@apollo/server": "^4.11.3",
+    "@prisma/client": "^6.3.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "graphql": "^16.10.0"
   },
   "devDependencies": {
+    "prisma": "^6.3.1",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/express-serve-static-core": "4.19.6",
