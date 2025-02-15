@@ -12,7 +12,8 @@
     "db:remove": "docker stop postgres-db || true && docker rm postgres-db || true",
     "db:generate": "npx prisma migrate dev",
     "db:migrate": "npx prisma migrate deploy",
-    "db:reset": "npm run db:remove && npm run db:init && npm run db:migrate"
+    "db:reset": "npm run db:remove && npm run db:init && npm run db:migrate",
+    "postinstall": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
