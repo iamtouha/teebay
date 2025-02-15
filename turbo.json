@@ -2,6 +2,7 @@
   "$schema": "./node_modules/turbo/schema.json",
   "tasks": {
     "build": {
+      "dependsOn": ["^db:generate"],
       "outputs": ["dist/**"]
     },
     "check-types": {
@@ -11,6 +12,7 @@
       "dependsOn": ["^lint"]
     },
     "dev": {
+      "dependsOn": ["^db:generate"],
       "persistent": true,
       "cache": false
     }
