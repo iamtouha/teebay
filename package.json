@@ -8,7 +8,10 @@
   ],
   "scripts": {
     "build": "turbo check-types build",
-    "dev": "turbo dev"
+    "dev": "turbo dev",
+    "db:generate": "turbo db:generate",
+    "db:migrate": "turbo db:migrate",
+    "db:deploy": "turbo db:deploy"
   },
   "keywords": [],
   "author": "",
