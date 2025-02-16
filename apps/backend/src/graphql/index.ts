@@ -1,42 +1,140 @@
-import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import http from 'http';
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
+import { type ApolloServerOptions } from '@apollo/server';
+import type { User, PrismaClient, Category } from '@prisma/client';
 
-const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`;
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
+export type AppContext = {
+  user: User | null;
+  db: PrismaClient;
 };
 
-export const initApolloServer = (httpServer: http.Server) =>
-  new ApolloServer<{}>({
-    typeDefs,
-    resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-  });
+import { createProductSchema } from 'validator';
+
+export const typeDefs = `#graphql
+enum Category {
+  ELECTRONICS
+  FURNITURE
+  HOME_APPLIANCES
+  SPORTING_GOODS
+  OUTDOOR
+  TOYS
+}
+
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String
+  address: String
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  rent: Float!
+  Owner: User!
+  category: Category!
+  isRented: Boolean!
+  rentEndDate: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type ProductWithOwner {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  rent: Float!
+  Owner: User!
+  category: Category!
+  isRented: Boolean!
+  rentEndDate: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewProductInput {
+  name: String!
+  description: String!
+  category: Category!
+  price: Float!
+  rent: Float!
+}
+
+input UpdateProductInput {
+  id: ID!
+  name: String
+  description: String
+  category: Category
+  price: Float
+  rent: Float
+  isRented: Boolean
+  rentEndDate: String
+}
+
+type Mutation {
+  createProduct(input: NewProductInput!): Product!
+  updateProduct(input: UpdateProductInput!): Product!
+  deleteProduct(id: ID!): Product!
+}
+
+type Query { 
+  products: [ProductWithOwner!]!
+  product(id: ID!): Product
+}
+`;
+
+export const resolvers: ApolloServerOptions<AppContext>['resolvers'] = {
+  Query: {
+    products: (_, __, ctx) => {
+      return ctx.db.product.findMany({
+        include: { Owner: true },
+      });
+    },
+    product: (_, arg, ctx) => {
+      return ctx.db.product.findUnique({
+        where: { id: +arg.id },
+        include: { Owner: true },
+      });
+    },
+  },
+  Mutation: {
+    createProduct: async (_, args, ctx) => {
+      if (!ctx.user) {
+        throw new Error('Unauthorized');
+      }
+      const validated = createProductSchema.safeParse(args.input);
+      if (!validated.success) {
+        console.log(validated.error.flatten());
+        throw new Error('Invalid input');
+      }
+
+      return ctx.db.product.create({
+        data: {
+          ...validated.data,
+          category: validated.data.category as Category,
+          ownerId: ctx.user.id,
+        },
+      });
+    },
+    updateProduct: async (_, args, ctx) => {
+      if (!ctx.user) {
+        throw new Error('Unauthorized');
+      }
+      const product = await ctx.db.product.findUnique({ where: { id: args.id } });
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      if (product.ownerId !== ctx.user.id) {
+        throw new Error('Unauthorized');
+      }
+
+      return ctx.db.product.update({
+        where: { id: args.id },
+        data: args,
+      });
+    },
+  },
+};

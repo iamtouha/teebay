@@ -3,7 +3,7 @@ import type { User } from '@prisma/client';
 import type { Request, Response, NextFunction } from 'express';
 
 export function generateAccessToken(data: Pick<User, 'id' | 'email'>) {
-  return jwt.sign(data, process.env.JWT_SECRET!, { expiresIn: '1800s' });
+  return jwt.sign(data, process.env.JWT_SECRET!, { expiresIn: `${30 * 86400}s` });
 }
 
 export function verifyAccessToken(token: string) {
@@ -16,10 +16,7 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
     try {
       const user = verifyAccessToken(token);
       req.userId = user.id;
-      next();
-    } catch (error) {
-      next();
-    }
+    } catch (error) {}
   }
   next();
 }

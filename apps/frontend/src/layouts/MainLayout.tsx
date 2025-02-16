@@ -35,7 +35,11 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </Button>
       </AppShell.Header>
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main>
+        {children}
+
+        {token}
+      </AppShell.Main>
     </AppShell>
   );
 }
