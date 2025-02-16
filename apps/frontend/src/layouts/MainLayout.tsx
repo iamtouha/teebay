@@ -1,9 +1,17 @@
-import { AppShell, Burger, Text, Title } from '@mantine/core';
+import { AppShell, Burger, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useAuth } from '../stores/authStore';
+import { useEffect } from 'react';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const [opened, { toggle }] = useDisclosure();
+  const { isLoggedin } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedin) navigate('/signin');
+  }, [isLoggedin]);
   return (
     <AppShell
       header={{ height: 60 }}

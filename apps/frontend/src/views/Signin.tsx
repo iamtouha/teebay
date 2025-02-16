@@ -4,8 +4,10 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { api } from '../utils/api';
 import { Link } from 'react-router';
+import { useAuth } from '../stores/authStore';
 
 export function Signin() {
+  const { setToken } = useAuth();
   const form = useForm<LoginUserInput>({
     initialValues: {
       email: '',
@@ -16,7 +18,8 @@ export function Signin() {
 
   const handleSubmit = form.onSubmit(async (data) => {
     try {
-      await api('/api/auth/signin', { method: 'POST', body: JSON.stringify(data) });
+      const res = await api<{ token: string }>('/api/auth/signin', { method: 'POST', body: JSON.stringify(data) });
+      setToken(res.token);
     } catch (error) {
       form.setErrors({ email: 'Invalid email or password' });
     }

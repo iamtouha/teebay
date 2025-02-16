@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import type { User } from 'database';
+import type { User } from '@prisma/client';
 import type { Request, Response, NextFunction } from 'express';
 
 export function generateAccessToken(data: Pick<User, 'id' | 'email'>) {
