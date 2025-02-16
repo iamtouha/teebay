@@ -1,28 +1,11 @@
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Product } from '../utils/types';
-import { Box, Card, Stack, Text, Title } from '@mantine/core';
+import { Stack, Title } from '@mantine/core';
 import ProductCard from '../components/ProductCard';
-
-const query = gql`
-  query {
-    products {
-      id
-      name
-      description
-      category
-      price
-      rent
-      createdAt
-      Owner {
-        firstName
-        lastName
-      }
-    }
-  }
-`;
+import { LIST_ALL_PRODUCTS } from '../utils/graphql/queries';
 
 export function Home() {
-  const { data, error, loading } = useQuery<{ products: Array<Product> }>(query);
+  const { data, error, loading } = useQuery<{ products: Array<Product> }>(LIST_ALL_PRODUCTS);
 
   if (loading) {
     return <div>Loading...</div>;
