@@ -1,10 +1,12 @@
 {
   "$schema": "./node_modules/turbo/schema.json",
+  "ui": "tui",
   "tasks": {
     "db:generate": {
       "cache": false
     },
     "db:migrate": {
+      "interactive": true,
       "cache": false,
       "persistent": true
     },
