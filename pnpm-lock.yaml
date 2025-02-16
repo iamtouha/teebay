@@ -99,6 +99,9 @@ importers:
       react-router:
         specifier: ^7.1.5
         version: 7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      validator:
+        specifier: workspace:*
+        version: link:../../packages/validator
     devDependencies:
       '@eslint/js':
         specifier: ^9.19.0

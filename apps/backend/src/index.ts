@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use(authMiddleware);
 
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 app.use('/graphql', expressMiddleware(apolloServer));
 
 httpServer.listen(4000, () => {

@@ -22,6 +22,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           </Text>
         </Link>
       </AppShell.Header>
+
       <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );

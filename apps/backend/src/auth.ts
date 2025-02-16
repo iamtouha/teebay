@@ -5,7 +5,7 @@ import { generateAccessToken } from './utils/jwt.js';
 
 const authRouter = Router();
 
-authRouter.get('/signin', async (req, res) => {
+authRouter.post('/signin', async (req, res) => {
   if (req.userId) {
     return res.status(400).json({ message: 'Already logged in' });
   }
@@ -23,7 +23,7 @@ authRouter.get('/signin', async (req, res) => {
   res.json({ token });
 });
 
-authRouter.get('/signup', async (req, res) => {
+authRouter.post('/signup', async (req, res) => {
   if (req.userId) {
     return res.status(400).json({ message: 'Already logged in' });
   }
