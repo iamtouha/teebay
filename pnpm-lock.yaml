@@ -117,6 +117,16 @@ importers:
         specifier: ~5.7.2
         version: 5.7.3
 
+  packages/schema:
+    dependencies:
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
+    devDependencies:
+      typescript:
+        specifier: ~5.7.2
+        version: 5.7.3
+
 packages:
 
   '@ampproject/remapping@2.3.0':
@@ -1944,6 +1954,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -3681,3 +3694,5 @@ snapshots:
   yallist@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@3.24.2: {}
