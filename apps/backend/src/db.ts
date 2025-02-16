@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/client';
+import { PrismaClient } from 'database';
 
 const prisma = new PrismaClient();
 const globalForPrisma = global as unknown as { prisma: typeof prisma };

@@ -1,4 +1,4 @@
-import { Box, Card, Title } from '@mantine/core';
+import { Box, Card, TextInput, Title } from '@mantine/core';
 import { LoginUserInput, loginUserSchema } from 'validator';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
@@ -27,7 +27,9 @@ export function Signin() {
         Sign in to Teebay
       </Title>
       <form onSubmit={handleSubmit}>
-        <Card withBorder></Card>
+        <Card withBorder>
+          <TextInput label="Email" placeholder="Email" {...form.getInputProps('email')} />
+        </Card>
       </form>
     </Box>
   );

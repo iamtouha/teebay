@@ -1,7 +1,7 @@
-import { prisma } from 'database';
 import { Router } from 'express';
 import { registerUserSchema, loginUserSchema } from 'validator';
 import { generateAccessToken } from './utils/jwt.js';
+import { prisma } from './db.js';
 
 const authRouter = Router();
 
