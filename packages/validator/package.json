@@ -2,13 +2,18 @@
   "name": "validator",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/src/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
   },
   "devDependencies": {
     "typescript": "~5.7.2"
   },
   "dependencies": {
-    "zod": "^3.24.2",
-    "database": "workspace:*"
+    "zod": "^3.24.2"
   }
 }

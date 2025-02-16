@@ -3,7 +3,7 @@ import { Home } from './views/Home';
 import { MainLayout } from './layouts/MainLayout';
 import { AuthLayout } from './layouts/AuthLayout';
 import { Signin } from './views/Signin';
-import Signup from './views/Signup';
+import { Signup } from './views/Signup';
 
 export function AppRouter() {
   return (

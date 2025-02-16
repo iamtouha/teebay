@@ -1,8 +1,9 @@
-import { Box, Card, TextInput, Title } from '@mantine/core';
+import { Box, Card, TextInput, Title, Stack, Button, Text } from '@mantine/core';
 import { LoginUserInput, loginUserSchema } from 'validator';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { api } from '../utils/api';
+import { Link } from 'react-router';
 
 export function Signin() {
   const form = useForm<LoginUserInput>({
@@ -28,7 +29,15 @@ export function Signin() {
       </Title>
       <form onSubmit={handleSubmit}>
         <Card withBorder>
-          <TextInput label="Email" placeholder="Email" {...form.getInputProps('email')} />
+          <Stack>
+            <TextInput label="Email" placeholder="Email" type="email" {...form.getInputProps('email')} />
+            <TextInput label="Password" placeholder="Password" type="password" {...form.getInputProps('password')} />
+            <Button type="submit">Submit</Button>
+            <Text style={{ textAlign: 'center' }}>
+              Don&apos;t have an account? &nbsp;
+              <Link to="/signup">Sign Up</Link>
+            </Text>
+          </Stack>
         </Card>
       </form>
     </Box>

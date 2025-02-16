@@ -167,9 +167,6 @@ importers:
 
   packages/validator:
     dependencies:
-      database:
-        specifier: workspace:*
-        version: link:../database
       zod:
         specifier: ^3.24.2
         version: 3.24.2
