@@ -1,4 +1,4 @@
-import { create, useStore } from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 type AuthStore = {
@@ -7,19 +7,14 @@ type AuthStore = {
   logout: () => void;
   readonly isLoggedin: boolean;
 };
-const authStore = create<AuthStore>()(
+export const useAuthStore = create<AuthStore>()(
   persist(
     (set, get) => ({
       token: null,
-      isLoggedin: get().token !== null,
+      isLoggedin: !!get()?.token,
       logout: () => set({ token: null }),
       setToken: (token) => set({ token }),
     }),
     { name: 'auth' }
   )
 );
-
-export function useAuth() {
-  const store = useStore(authStore);
-  return store;
-}

@@ -4,10 +4,10 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { api } from '../utils/api';
 import { Link } from 'react-router';
-import { useAuth } from '../stores/authStore';
+import { useAuthStore } from '../stores/authStore';
 
 export function Signin() {
-  const { setToken } = useAuth();
+  const setToken = useAuthStore((store) => store.setToken);
   const form = useForm<LoginUserInput>({
     initialValues: {
       email: '',
@@ -26,12 +26,12 @@ export function Signin() {
   });
 
   return (
-    <Box mx="auto" maw={876} mt="xl">
+    <Box>
       <Title mb="lg" style={{ fontWeight: 'normal', textAlign: 'center' }}>
         Sign in to Teebay
       </Title>
       <form onSubmit={handleSubmit}>
-        <Card withBorder>
+        <Card withBorder maw={600} mx="auto">
           <Stack>
             <TextInput label="Email" placeholder="Email" type="email" {...form.getInputProps('email')} />
             <TextInput label="Password" placeholder="Password" type="password" {...form.getInputProps('password')} />

@@ -4,8 +4,10 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { api } from '../utils/api';
 import { Link } from 'react-router';
+import { useAuthStore } from '../stores/authStore';
 
 export function Signup() {
+  const setToken = useAuthStore((store) => store.setToken);
   const form = useForm<RegisterUserInput>({
     initialValues: {
       firstName: '',
@@ -21,19 +23,20 @@ export function Signup() {
 
   const handleSubmit = form.onSubmit(async (data) => {
     try {
-      await api('/api/auth/signup', { method: 'POST', body: JSON.stringify(data) });
+      const res = await api<{ token: string }>('/api/auth/signup', { method: 'POST', body: JSON.stringify(data) });
+      setToken(res.token);
     } catch (error) {
       form.setErrors({ email: 'Cannot create account with this email' });
     }
   });
 
   return (
-    <Box mx="auto" maw={876} mt="xl">
+    <Box mx="auto">
       <Title mb="lg" style={{ fontWeight: 'normal', textAlign: 'center' }}>
         Sign Up on Teebay
       </Title>
       <form onSubmit={handleSubmit}>
-        <Card withBorder>
+        <Card withBorder maw={600} mx="auto">
           <Stack>
             <Group justify="stretch">
               <TextInput flex={1} label="First Name" placeholder="First Name" {...form.getInputProps('firstName')} />

@@ -1,15 +1,15 @@
 import { AppShell } from '@mantine/core';
-import { useAuth } from '../stores/authStore';
+import { useAuthStore } from '../stores/authStore';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 export function AuthLayout({ children }: { children: React.ReactNode }) {
-  const { isLoggedin } = useAuth();
+  const token = useAuthStore((store) => store.token);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedin) navigate('/');
-  }, [isLoggedin]);
+    if (!!token) navigate('/');
+  }, [token]);
 
   return (
     <AppShell padding="md">

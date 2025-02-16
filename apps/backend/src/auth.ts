@@ -31,12 +31,12 @@ authRouter.post('/signup', async (req, res) => {
   if (!validation.success) {
     return res.status(400).json(validation.error.flatten());
   }
-  const { email } = validation.data;
-  const existingUser = await prisma.user.findUnique({ where: { email } });
+  const { repeatPassword, ...data } = validation.data;
+  const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
   if (existingUser) {
     return res.status(400).json({ message: 'User with this email already exists' });
   }
-  const user = await prisma.user.create({ data: validation.data, select: { id: true, email: true } });
+  const user = await prisma.user.create({ data, select: { id: true, email: true } });
   const token = generateAccessToken({ id: user.id, email: user.email });
   res.json({ token });
 });
