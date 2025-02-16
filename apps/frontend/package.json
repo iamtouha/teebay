@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.1",
     "@mantine/core": "^7.16.3",
     "@mantine/dates": "^7.16.3",
     "@mantine/form": "^7.16.3",
     "@mantine/hooks": "^7.16.3",
     "@mantine/modals": "^7.16.3",
     "dayjs": "^1.11.13",
+    "graphql": "^16.10.0",
     "mantine-form-zod-resolver": "^1.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
