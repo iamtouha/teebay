@@ -16,6 +16,9 @@
     "db:init": {
       "cache": false
     },
+    "db:remove": {
+      "cache": false
+    },
     "db:studio": {
       "cache": false
     },

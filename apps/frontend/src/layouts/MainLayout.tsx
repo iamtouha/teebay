@@ -1,4 +1,4 @@
-import { AppShell, Burger, Button, Text } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore } from '../stores/authStore';
@@ -14,32 +14,28 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     if (!token) navigate('/signin');
   }, [token]);
   return (
-    <AppShell
-      header={{ height: 60 }}
-      navbar={{
-        width: 300,
-        breakpoint: 'sm',
-        collapsed: { mobile: !opened },
-      }}
-      padding="md"
-    >
+    <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header px="md" style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between ' }}>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <Text size="xl" style={{ fontWeight: 'bold' }}>
-            Teebay
-          </Text>
-        </Link>
+        <Group gap="md" align="center">
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Text size="xl" style={{ fontWeight: 'bold' }}>
+              Teebay
+            </Text>
+          </Link>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            Home
+          </Link>
+          <Link to="/my-products" style={{ textDecoration: 'none', color: 'inherit' }}>
+            My Products
+          </Link>
+        </Group>
         <Button variant="outline" onClick={signOut}>
           Sign Out
         </Button>
       </AppShell.Header>
 
-      <AppShell.Main>
-        {children}
-
-        {token}
-      </AppShell.Main>
+      <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );
 }

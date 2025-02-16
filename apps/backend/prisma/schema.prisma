@@ -14,47 +14,38 @@ datasource db {
 }
 
 model User {
-  id              Int        @id @default(autoincrement())
-  firstName       String
-  lastName        String
-  address         String
-  phone           String?
-  email           String     @unique
-  password        String
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  PurchaseHistory Transfer[] @relation("Buyer")
-  SaleHistory     Transfer[] @relation("Seller")
-  Products        Product[]
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  address   String
+  phone     String?
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Products  Product[] @relation("Owner")
+  Borrowed  Product[] @relation("RentedTo")
+  Bought    Product[] @relation("SoldTo")
 }
 
 model Product {
-  id          Int        @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String
   price       Float
   rent        Float
   category    Category
   ownerId     Int
-  isRented    Boolean    @default(false)
+  rentedToId  Int?
+  rentedAt    DateTime?
   rentEndDate DateTime?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  Transfers   Transfer[]
-  Owner       User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-}
-
-model Transfer {
-  id        Int      @id @default(autoincrement())
-  isRented  Boolean  @default(false)
-  productId Int
-  sellerId  Int
-  buyerId   Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Product   Product  @relation(fields: [productId], references: [id])
-  Seller    User     @relation("Seller", fields: [sellerId], references: [id], onDelete: Cascade)
-  Buyer     User     @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  soldToId    Int?
+  soldAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Owner       User      @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  RentedTo    User?     @relation("RentedTo", fields: [rentedToId], references: [id])
+  SoldTo      User?     @relation("SoldTo", fields: [soldToId], references: [id])
 }
 
 enum Category {
