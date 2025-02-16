@@ -1,6 +1,6 @@
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { AppRouter } from './router';
+import { AppRouter } from './AppRouter';
 function App() {
   return (
     <MantineProvider>
