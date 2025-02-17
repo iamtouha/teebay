@@ -5,3 +5,5 @@ dist
 
 # dir
 packages/database/generated
+
+*.tsbuildinfo
