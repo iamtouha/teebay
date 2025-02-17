@@ -5,12 +5,11 @@ export type User = {
   address: string;
   phone?: string | null;
   email: string;
-  password: string;
   createdAt: Date;
   updatedAt: Date;
-  Products: Product[];
-  Borrowed: Product[];
-  Bought: Product[];
+  Products?: Product[];
+  Borrowed?: Product[];
+  Bought?: Product[];
 };
 
 export type Product = {

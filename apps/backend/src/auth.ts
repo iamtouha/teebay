@@ -41,4 +41,15 @@ authRouter.post('/signup', async (req, res) => {
   res.json({ token });
 });
 
+authRouter.get('/profile', async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  const user = await prisma.user.findUnique({ where: { id: req.userId }, omit: { password: true } });
+  if (!user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  res.json(user);
+});
+
 export default authRouter;

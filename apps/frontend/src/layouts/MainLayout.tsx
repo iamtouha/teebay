@@ -3,16 +3,28 @@ import { useDisclosure } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore } from '../stores/authStore';
 import { useEffect } from 'react';
+import { api, APIError } from '../utils/api';
+import type { User } from '../utils/types';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const [opened, { toggle }] = useDisclosure();
   const token = useAuthStore((store) => store.token);
   const signOut = useAuthStore((store) => store.logout);
+  const setUser = useAuthStore((store) => store.setUserData);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) navigate('/signin');
-  }, [token]);
+    if (token) {
+      api<User>('/api/auth/profile', { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
+        .then((data) => setUser(data))
+        .catch((error) => {
+          if (error instanceof APIError && error.status === 401) signOut();
+        });
+    } else {
+      navigate('/signin');
+    }
+  }, [token, setUser, signOut, navigate]);
+
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header px="md" style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between ' }}>
