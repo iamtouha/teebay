@@ -1,3 +1,5 @@
+import { Category } from 'validator';
+
 export type User = {
   id: number;
   firstName: string;
@@ -31,12 +33,3 @@ export type Product = {
   RentedTo?: User | null;
   SoldTo?: User | null;
 };
-
-export enum Category {
-  ELECTRONICS = 'ELECTRONICS',
-  FURNITURE = 'FURNITURE',
-  HOME_APPLIANCES = 'HOME_APPLIANCES',
-  SPORTING_GOODS = 'SPORTING_GOODS',
-  OUTDOOR = 'OUTDOOR',
-  TOYS = 'TOYS',
-}

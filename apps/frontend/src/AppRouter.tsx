@@ -5,6 +5,7 @@ import { AuthLayout } from './layouts/AuthLayout';
 import { Signin } from './views/Signin';
 import { Signup } from './views/Signup';
 import { MyProducts } from './views/MyProducts';
+import AddProduct from './views/AddProduct';
 
 export function AppRouter() {
   return (
@@ -19,6 +20,7 @@ export function AppRouter() {
         >
           <Route index element={<Home />} />
           <Route path="my-products" element={<MyProducts />} />
+          <Route path="add-product" element={<AddProduct />} />
         </Route>
         <Route
           element={
