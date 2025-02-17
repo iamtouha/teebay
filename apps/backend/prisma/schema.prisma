@@ -29,23 +29,23 @@ model User {
 }
 
 model Product {
-  id          Int       @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   description String
   price       Float
   rent        Float
-  category    Category
+  categories  Category[]
   ownerId     Int
   rentedToId  Int?
   rentedAt    DateTime?
   rentEndDate DateTime?
   soldToId    Int?
   soldAt      DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  Owner       User      @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
-  RentedTo    User?     @relation("RentedTo", fields: [rentedToId], references: [id])
-  SoldTo      User?     @relation("SoldTo", fields: [soldToId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Owner       User       @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  RentedTo    User?      @relation("RentedTo", fields: [rentedToId], references: [id])
+  SoldTo      User?      @relation("SoldTo", fields: [soldToId], references: [id])
 }
 
 enum Category {

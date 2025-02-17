@@ -39,7 +39,7 @@ export const resolvers: ApolloServerOptions<AppContext>['resolvers'] = {
       return ctx.db.product.create({
         data: {
           ...validated.data,
-          category: validated.data.category as Category,
+          categories: validated.data.categories as Category[],
           ownerId: ctx.user.id,
         },
       });

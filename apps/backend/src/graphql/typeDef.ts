@@ -24,7 +24,7 @@ type Product {
   price: Float!
   rent: Float!
   Owner: User!
-  category: Category!
+  categories: [Category!]!
   RentedTo: User
   SoldTo: User
   rentDate: String
@@ -41,7 +41,7 @@ type ProductWithOwner {
   price: Float!
   rent: Float!
   Owner: User!
-  category: Category! 
+  categories: [Category!]! 
   createdAt: String!
   updatedAt: String!
 }
@@ -49,7 +49,7 @@ type ProductWithOwner {
 input NewProductInput {
   name: String!
   description: String!
-  category: Category!
+  categories: [Category!]!
   price: Float!
   rent: Float!
 }
@@ -58,7 +58,7 @@ input UpdateProductInput {
   id: ID!
   name: String
   description: String
-  category: Category
+  categories: [Category!]
   price: Float
   rent: Float 
   rentEndDate: String

@@ -5,7 +5,7 @@ export const createProductSchema = z.object({
   description: z.string().min(10).max(1000),
   price: z.number().min(0),
   rent: z.number().min(0),
-  category: z.string(),
+  categories: z.string().array().min(1),
 });
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 
