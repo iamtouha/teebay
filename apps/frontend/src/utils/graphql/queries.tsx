@@ -19,7 +19,7 @@ export const LIST_ALL_PRODUCTS = gql`
 `;
 
 export const LIST_MY_PRODUCTS = gql`
-  query ListAllProducts {
+  query ListMyProducts {
     myProducts {
       id
       name

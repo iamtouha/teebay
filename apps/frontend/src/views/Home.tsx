@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { Product } from '../utils/types';
-import { Stack, Title } from '@mantine/core';
+import { Stack, Text, Title } from '@mantine/core';
 import ProductCard from '../components/ProductCard';
 import { LIST_ALL_PRODUCTS } from '../utils/graphql/queries';
 
@@ -20,6 +20,7 @@ export function Home() {
       {data?.products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
+      {data?.products.length === 0 && <Text style={{ textAlign: 'center' }}>No products found</Text>}
     </Stack>
   );
 }
