@@ -10,7 +10,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <Text c="gray">
           price: ${product.price} rent: ${product.rent}/day
         </Text>
-        <Text c="gray">category: {product.category}</Text>
+        <Text c="gray">category: {product.categories.join(', ')}</Text>
         <Text>{product.description}</Text>
         <Group justify="end">
           <Link to={`/products/${product.id}`}>

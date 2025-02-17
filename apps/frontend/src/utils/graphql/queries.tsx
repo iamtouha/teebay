@@ -6,7 +6,7 @@ export const LIST_ALL_PRODUCTS = gql`
       id
       name
       description
-      category
+      categories
       price
       rent
       createdAt
@@ -24,7 +24,7 @@ export const LIST_MY_PRODUCTS = gql`
       id
       name
       description
-      category
+      categories
       price
       rent
       createdAt

@@ -18,7 +18,7 @@ export type Product = {
   description: string;
   price: number;
   rent: number;
-  category: Category;
+  categories: Category[];
   ownerId: number;
   rentedToId?: number | null;
   rentedAt?: Date | null;
