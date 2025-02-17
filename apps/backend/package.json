@@ -13,7 +13,7 @@
     "db:migrate": "prisma migrate dev --skip-generate",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "db:init": "docker run --name teebay-db -d -e POSTGRES_DB=teebaydb -e POSTGRES_PASSWORD=root -e POSTGRES_USER=teebay -p '5432:5432' postgres && sleep 2",
+    "db:init": "docker run --name teebay-db -d -e POSTGRES_DB=teebaydb -e POSTGRES_PASSWORD=root -e POSTGRES_USER=teebay -p '5432:5432' postgres:17-alpine && sleep 2",
     "db:remove": "docker stop teebay-db || true && docker rm teebay-db || true"
   },
   "keywords": [],
