@@ -37,6 +37,12 @@ export const resolvers: ApolloServerOptions<AppContext>['resolvers'] = {
       });
       return data;
     },
+    profile: async (_, __, ctx) => {
+      if (!ctx.user) {
+        throw new Error('Unauthorized');
+      }
+      return ctx.user;
+    },
   },
   Mutation: {
     createProduct: async (_, args, ctx) => {

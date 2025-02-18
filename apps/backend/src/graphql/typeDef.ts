@@ -9,7 +9,7 @@ enum Category {
 }
 
 type User {
-  id: ID!
+  id: Int!
   email: String!
   firstName: String!
   lastName: String!
@@ -86,6 +86,7 @@ type Mutation {
 }
 
 type Query { 
+  profile: User!
   products: [ProductWithOwner!]!
   myProducts: [Product!]!
   product(id: ID!): Product

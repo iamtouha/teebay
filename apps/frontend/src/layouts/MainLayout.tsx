@@ -3,31 +3,35 @@ import { useDisclosure } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore } from '../stores/authStore';
 import { useEffect } from 'react';
-import { api, APIError } from '../utils/api';
 import type { User } from '../utils/types';
-
-if (window !== undefined) {
-  const { token } = useAuthStore.getState();
-  if (token) {
-    api<User>('/api/auth/profile', { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
-      .then((data) => useAuthStore.setState({ user: { ...data } }))
-      .catch((error) => {
-        if (error instanceof APIError && error.status === 401) useAuthStore.getState().logout();
-      });
-  }
-}
+import { useQuery } from '@apollo/client';
+import { GET_PROFILE } from '../utils/graphql/queries';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const [opened, { toggle }] = useDisclosure();
-  const token = useAuthStore((store) => store.token);
+  const setUser = useAuthStore((store) => store.setUserData);
   const signOut = useAuthStore((store) => store.logout);
   const navigate = useNavigate();
+  const { data, loading, error, refetch } = useQuery<{ profile: User }>(GET_PROFILE);
 
   useEffect(() => {
-    if (!token) {
+    if (error?.message.includes('Unauthorized')) {
       navigate('/signin');
     }
-  }, [token]);
+  }, [error?.message]);
+
+  useEffect(() => {
+    if (data?.profile) {
+      setUser(data.profile);
+    }
+  }, [data]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <AppShell header={{ height: 60 }} padding="md">
@@ -46,7 +50,14 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             My Products
           </Link>
         </Group>
-        <Button variant="outline" onClick={signOut}>
+        <Button
+          variant="outline"
+          onClick={() => {
+            signOut();
+            refetch();
+            navigate('/signin');
+          }}
+        >
           Sign Out
         </Button>
       </AppShell.Header>

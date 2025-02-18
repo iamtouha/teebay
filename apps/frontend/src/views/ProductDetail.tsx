@@ -73,7 +73,7 @@ export function ProductDetail() {
           <Text>{product.description}</Text>
 
           <Group justify="end" gap="sm">
-            {userData.id === +product.Owner.id ? (
+            {userData?.id === +product.Owner.id ? (
               <Link to={`/my-products/${product.id}`}>
                 <Button size="sm" variant="transparent">
                   Edit Product
