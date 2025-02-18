@@ -46,6 +46,12 @@ export const LIST_MY_PRODUCTS = gql`
       price
       rent
       createdAt
+      ownerId
+      soldToId
+      Rent {
+        id
+        userId
+      }
     }
   }
 `;

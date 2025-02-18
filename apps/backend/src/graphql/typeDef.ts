@@ -16,16 +16,27 @@ type User {
   phone: String
   address: String
 }
-
+type Rent {
+  id: ID!
+  productId: Int!
+  userId: Int!
+  rentedAt: String!
+  rentEnd: String!
+  createdAt: String!
+  updatedAt: String!
+}
 type Product {
   id: ID!
   name: String!
   description: String!
   price: Float!
   rent: Float!
-  Owner: User!
   categories: [Category!]!
+  ownerId: Int!
+  soldToId: Int
+  Owner: User!
   SoldTo: User
+  Rent: [Rent!]
   sellDate: String
   createdAt: String!
   updatedAt: String!

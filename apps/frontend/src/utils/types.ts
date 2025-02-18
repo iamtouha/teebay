@@ -28,6 +28,7 @@ export type Product = {
   updatedAt: string;
   Owner: User;
   SoldTo?: User | null;
+  Rent?: Rent[];
 };
 
 export type Rent = {

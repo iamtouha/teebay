@@ -19,6 +19,7 @@ export const resolvers: ApolloServerOptions<AppContext>['resolvers'] = {
             { Rent: { some: { userId: ctx.user.id, rentEnd: { gte: new Date() } } } },
           ],
         },
+        include: { Rent: { where: { rentEnd: { gte: new Date() } } } },
       });
       return data.map((p) => convertDateColumns(p));
     },
@@ -76,7 +77,19 @@ export const resolvers: ApolloServerOptions<AppContext>['resolvers'] = {
       if (!ctx.user) {
         throw new Error('Unauthorized');
       }
-      return ctx.db.product.delete({ where: { id: +args.id, ownerId: ctx.user.id, soldToId: null } });
+      const productId = +args.id;
+      const product = await ctx.db.product.findUnique({ where: { id: productId, ownerId: ctx.user.id } });
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      if (product.soldToId) {
+        throw new Error('Product is already sold');
+      }
+      const rents = await ctx.db.rent.findFirst({ where: { productId, rentEnd: { gte: new Date() } } });
+      if (rents) {
+        throw new Error('Product is currently rented');
+      }
+      return ctx.db.product.delete({ where: { id: productId } });
     },
     buyProduct: async (_, args, ctx) => {
       if (!ctx.user) {
