@@ -7,8 +7,8 @@ export type User = {
   address: string;
   phone?: string | null;
   email: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   Products?: Product[];
   Borrowed?: Product[];
   Bought?: Product[];
@@ -23,19 +23,19 @@ export type Product = {
   categories: Category[];
   ownerId: number;
   soldToId?: number | null;
-  soldAt?: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
+  soldAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
   Owner: User;
   SoldTo?: User | null;
 };
 
 export type Rent = {
   id: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   productId: number;
   userId: number;
-  rentedAt: Date;
-  rentEnd: Date;
+  rentedAt: string;
+  rentEnd: string;
 };

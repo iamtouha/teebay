@@ -30,3 +30,19 @@ export const DELETE_PRODUCT = gql`
     }
   }
 `;
+
+export const RENT_PRODUCT = gql`
+  mutation RentProduct($input: RentProductInput!) {
+    rentProduct(input: $input) {
+      id
+    }
+  }
+`;
+
+export const BUY_PRODUCT = gql`
+  mutation BuyProduct($id: ID!) {
+    buyProduct(id: $id) {
+      id
+    }
+  }
+`;
