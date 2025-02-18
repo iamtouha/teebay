@@ -62,8 +62,8 @@ input UpdateProductInput {
 
 input RentProductInput {
   id: Int!
-  startDate: String!
-  endDate: String!
+  rentedAt: String!
+  rentEnd: String!
 }
 
 type Mutation {
