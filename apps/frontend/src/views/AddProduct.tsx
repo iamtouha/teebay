@@ -21,7 +21,7 @@ import { CREATE_PRODUCT } from '../utils/graphql/mutations';
 import { useNavigate } from 'react-router';
 import { Product } from '../utils/types';
 
-export default function AddProduct() {
+export function AddProduct() {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
   const [createProduct, { error, loading }] = useMutation<{ createProduct: Product }>(CREATE_PRODUCT, {
@@ -95,8 +95,8 @@ export default function AddProduct() {
       description: 'Set price',
       component: (
         <>
-          <NumberInput {...form.getInputProps('price')} label="Price" required />
-          <NumberInput {...form.getInputProps('rent')} label="Rent" required />
+          <NumberInput {...form.getInputProps('price')} label="Price ($)" required />
+          <NumberInput {...form.getInputProps('rent')} label="Rent ($ per month)" required />
         </>
       ),
     },

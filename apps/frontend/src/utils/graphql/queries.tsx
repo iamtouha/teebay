@@ -17,10 +17,9 @@ export const LIST_ALL_PRODUCTS = gql`
     }
   }
 `;
-
-export const LIST_MY_PRODUCTS = gql`
-  query ListMyProducts {
-    myProducts {
+export const GET_PRODUCT = gql`
+  query GetProduct($id: ID!) {
+    product(id: $id) {
       id
       name
       description
@@ -32,6 +31,20 @@ export const LIST_MY_PRODUCTS = gql`
         firstName
         lastName
       }
+    }
+  }
+`;
+
+export const LIST_MY_PRODUCTS = gql`
+  query ListMyProducts {
+    myProducts {
+      id
+      name
+      description
+      categories
+      price
+      rent
+      createdAt
     }
   }
 `;

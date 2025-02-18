@@ -24,7 +24,7 @@ export function MyProducts() {
         </Link>
       </Group>
       {data?.myProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard key={product.id} product={product} showEditBtn showDeleteBtn />
       ))}
       {data?.myProducts.length === 0 && (
         <Box p="lg">
