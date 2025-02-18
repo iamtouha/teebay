@@ -3,7 +3,7 @@ import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { createProductSchema, CreateProductInput, Category } from 'validator';
+import { createProductSchema, Category, UpdateProductInput } from 'validator';
 import { useParams } from 'react-router';
 import { Product } from '../utils/types';
 import { GET_PRODUCT } from '../utils/graphql/queries';
@@ -19,8 +19,9 @@ export function UpdateProduct() {
     },
   });
 
-  const form = useForm<CreateProductInput>({
+  const form = useForm<UpdateProductInput>({
     initialValues: {
+      id: undefined as never,
       name: '',
       description: '',
       categories: [],
@@ -37,7 +38,7 @@ export function UpdateProduct() {
   }, [data?.product]);
 
   const handleSubmit = form.onSubmit((values) => {
-    update({ variables: { input: { id, ...values } } });
+    update({ variables: { input: { ...values, id } } });
   });
 
   if (loading) {

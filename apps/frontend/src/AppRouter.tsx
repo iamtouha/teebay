@@ -7,6 +7,7 @@ import { Signup } from './views/Signup';
 import { MyProducts } from './views/MyProducts';
 import { AddProduct } from './views/AddProduct';
 import { UpdateProduct } from './views/UpdateProduct';
+import { ProductDetail } from './views/ProductDetail';
 
 export function AppRouter() {
   return (
@@ -22,6 +23,7 @@ export function AppRouter() {
           <Route index element={<Home />} />
           <Route path="my-products" element={<MyProducts />} />
           <Route path="my-products/:id" element={<UpdateProduct />} />
+          <Route path="products/:id" element={<ProductDetail />} />
           <Route path="add-product" element={<AddProduct />} />
         </Route>
         <Route

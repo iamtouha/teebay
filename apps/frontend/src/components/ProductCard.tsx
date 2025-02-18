@@ -16,7 +16,7 @@ export default function ProductCard({
     <Card key={product.id} withBorder>
       <Stack gap="md">
         <Group justify="space-between">
-          <Title size="md">{product.name}</Title>
+          <Title size="xl">{product.name}</Title>
           {showDeleteBtn ? (
             <Button variant="default" c="red">
               <TrashIcon />

@@ -28,6 +28,7 @@ export const GET_PRODUCT = gql`
       rent
       createdAt
       Owner {
+        id
         firstName
         lastName
       }

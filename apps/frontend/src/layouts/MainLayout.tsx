@@ -10,7 +10,7 @@ if (window !== undefined) {
   const { token } = useAuthStore.getState();
   if (token) {
     api<User>('/api/auth/profile', { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
-      .then((data) => useAuthStore.setState({ user: data }))
+      .then((data) => useAuthStore.setState({ user: { ...data } }))
       .catch((error) => {
         if (error instanceof APIError && error.status === 401) useAuthStore.getState().logout();
       });
