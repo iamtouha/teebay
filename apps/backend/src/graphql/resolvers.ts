@@ -1,5 +1,5 @@
 import type { ApolloServerOptions } from '@apollo/server';
-import { createProductSchema, updateProductSchema } from 'validator';
+import { createProductSchema, rendProductSchema, updateProductSchema } from 'validator';
 import type { AppContext } from './index.js';
 import type { Category } from '@prisma/client';
 
@@ -65,8 +65,37 @@ export const resolvers: ApolloServerOptions<AppContext>['resolvers'] = {
       if (!ctx.user) {
         throw new Error('Unauthorized');
       }
-      console.log(args);
       return ctx.db.product.delete({ where: { id: +args.id, ownerId: ctx.user.id, soldToId: null } });
+    },
+    rentProduct: async (_, args, ctx) => {
+      if (!ctx.user) {
+        throw new Error('Unauthorized');
+      }
+      const data = rendProductSchema.safeParse(args.input);
+      if (!data.success) {
+        throw new Error(JSON.stringify(data.error.flatten()));
+      }
+      const { id, rentedAt, rentEnd } = data.data;
+      const product = await ctx.db.product.findUnique({ where: { id, soldToId: null } });
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      const rents = await ctx.db.rent.findMany({
+        where: {
+          productId: id,
+          OR: [
+            { rentedAt: { lte: rentedAt }, rentEnd: { gte: rentedAt } },
+            { rentedAt: { lte: rentEnd }, rentEnd: { gte: rentEnd } },
+            { rentedAt: { gte: rentedAt }, rentEnd: { lte: rentEnd } },
+          ],
+        },
+      });
+      if (rents.length) {
+        throw new Error('Rent period overlaps with existing rent');
+      }
+      return ctx.db.rent.create({
+        data: { productId: id, rentedAt, rentEnd, userId: ctx.user.id },
+      });
     },
   },
 };

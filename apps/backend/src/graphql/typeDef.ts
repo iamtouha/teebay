@@ -25,10 +25,7 @@ type Product {
   rent: Float!
   Owner: User!
   categories: [Category!]!
-  RentedTo: User
   SoldTo: User
-  rentDate: String
-  rentEndDate: String
   sellDate: String
   createdAt: String!
   updatedAt: String!
@@ -63,10 +60,18 @@ input UpdateProductInput {
   rent: Float  
 }
 
+input RentProductInput {
+  id: Int!
+  startDate: String!
+  endDate: String!
+}
+
 type Mutation {
   createProduct(input: NewProductInput!): Product!
   updateProduct(input: UpdateProductInput!): Product!
   deleteProduct(id: ID!): Product!
+  rentProduct(input: RentProductInput!): Product!
+  buyProduct(id: ID!): Product!
 }
 
 type Query { 

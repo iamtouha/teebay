@@ -35,3 +35,16 @@ export const listProductsSchema = z.object({
   limit: z.number().positive().default(10),
 });
 export type ListProductsInput = z.infer<typeof listProductsSchema>;
+
+export const rendProductSchema = z.object({
+  id: z.number().positive(),
+  rentedAt: z
+    .string()
+    .date()
+    .transform((v) => new Date(v)),
+  rentEnd: z
+    .string()
+    .date()
+    .transform((v) => new Date(v)),
+});
+export type RentProductInput = z.infer<typeof rendProductSchema>;

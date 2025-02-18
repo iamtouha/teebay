@@ -22,14 +22,20 @@ export type Product = {
   rent: number;
   categories: Category[];
   ownerId: number;
-  rentedToId?: number | null;
-  rentedAt?: Date | null;
-  rentEndDate?: Date | null;
   soldToId?: number | null;
   soldAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
   Owner: User;
-  RentedTo?: User | null;
   SoldTo?: User | null;
+};
+
+export type Rent = {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  productId: number;
+  userId: number;
+  rentedAt: Date;
+  rentEnd: Date;
 };
