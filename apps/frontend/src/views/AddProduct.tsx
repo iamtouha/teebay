@@ -15,10 +15,21 @@ import {
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useState } from 'react';
+import { useMutation } from '@apollo/client';
 import { createProductSchema, CreateProductInput, Category } from 'validator';
+import { CREATE_PRODUCT } from '../utils/graphql/mutations';
+import { useNavigate } from 'react-router';
+import { Product } from '../utils/types';
 
 export default function AddProduct() {
   const [active, setActive] = useState(0);
+  const navigate = useNavigate();
+  const [createProduct, { error, loading }] = useMutation<{ createProduct: Product }>(CREATE_PRODUCT, {
+    refetchQueries: ['ListAllProducts', 'ListMyProducts'],
+    onCompleted: (data) => {
+      navigate('/products/' + data.createProduct.id);
+    },
+  });
   const form = useForm<CreateProductInput>({
     initialValues: {
       name: '',
@@ -29,6 +40,23 @@ export default function AddProduct() {
     },
     validate: zodResolver(createProductSchema),
   });
+
+  const handleSubmit = form.onSubmit(
+    (values) => {
+      createProduct({ variables: { input: values } });
+    },
+    (formError) => {
+      if ('name' in formError) {
+        setActive(0);
+      } else if ('categories' in formError) {
+        setActive(1);
+      } else if ('description' in formError) {
+        setActive(2);
+      } else if ('price' in formError || 'rent' in formError) {
+        setActive(3);
+      }
+    }
+  );
 
   const formFieldSteps = [
     {
@@ -73,25 +101,8 @@ export default function AddProduct() {
       ),
     },
   ];
-  const nextStep = () => setActive((current) => (current < formFieldSteps.length ? current + 1 : current));
-  const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
-
-  const handleSubmit = form.onSubmit(
-    (values) => {
-      console.log(values);
-    },
-    (formError) => {
-      if ('name' in formError) {
-        setActive(0);
-      } else if ('categories' in formError) {
-        setActive(1);
-      } else if ('description' in formError) {
-        setActive(2);
-      } else if ('price' in formError || 'rent' in formError) {
-        setActive(3);
-      }
-    }
-  );
+  const nextStep = () => setActive((current) => current + 1);
+  const prevStep = () => setActive((current) => current - 1);
 
   return (
     <Box maw={1024} mx="auto">
@@ -123,16 +134,20 @@ export default function AddProduct() {
           </Stepper.Completed>
         </Stepper>
 
+        <Group py="sm" justify="center">
+          {error && <Text c="red">{error.message}</Text>}
+        </Group>
+
         <Group mt="xl" justify="center">
-          <Button type="button" variant="default" onClick={prevStep}>
+          <Button type="button" variant="default" onClick={prevStep} disabled={active === 0 || loading}>
             Back
           </Button>
           {active === 4 ? (
-            <Button type="submit" key="submit">
+            <Button type="submit" key="submit" loading={loading} loaderProps={{ type: 'dots' }}>
               Add this product
             </Button>
           ) : (
-            <Button type="button" onClick={nextStep}>
+            <Button type="button" onClick={nextStep} disabled={active >= formFieldSteps.length}>
               Next
             </Button>
           )}
