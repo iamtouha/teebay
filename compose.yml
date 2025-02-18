@@ -1,0 +1,14 @@
+services:
+  teebay-db:
+    image: postgres:17-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: teebay
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: teebaydb
+    volumes:
+      - teebay-db-data:/var/lib/postgresql/data
+
+volumes:
+  teebay-db-data:

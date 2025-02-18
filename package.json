@@ -12,8 +12,6 @@
     "db:generate": "turbo db:generate",
     "db:migrate": "turbo db:migrate",
     "db:deploy": "turbo db:deploy",
-    "db:init": "turbo db:init",
-    "db:remove": "turbo db:remove",
     "db:studio": "turbo db:studio"
   },
   "keywords": [],
