@@ -60,8 +60,7 @@ input UpdateProductInput {
   description: String
   categories: [Category!]
   price: Float
-  rent: Float 
-  rentEndDate: String
+  rent: Float  
 }
 
 type Mutation {

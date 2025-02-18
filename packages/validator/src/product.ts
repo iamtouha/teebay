@@ -18,7 +18,9 @@ export const createProductSchema = z.object({
 });
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 
-export const updateProductSchema = createProductSchema.extend({ id: z.number().positive() });
+export const updateProductSchema = createProductSchema.extend({
+  id: z.union([z.number(), z.string()]).transform((v) => parseInt(v as string)),
+});
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;
 
 export const deleteProductSchema = z.object({ id: z.number().positive() });
