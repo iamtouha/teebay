@@ -61,5 +61,12 @@ export const resolvers: ApolloServerOptions<AppContext>['resolvers'] = {
 
       return ctx.db.product.update({ where: { id }, data });
     },
+    deleteProduct: async (_, args, ctx) => {
+      if (!ctx.user) {
+        throw new Error('Unauthorized');
+      }
+      console.log(args);
+      return ctx.db.product.delete({ where: { id: +args.id, ownerId: ctx.user.id, soldToId: null } });
+    },
   },
 };
